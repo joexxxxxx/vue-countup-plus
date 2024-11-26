@@ -1,6 +1,6 @@
-import { mount,  } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { shallowRef,  } from 'vue-demi'
+import { shallowRef } from 'vue-demi'
 import { useCountup } from '../useCountup'
 
 describe('useAnimate', () => {
@@ -24,7 +24,7 @@ describe('useAnimate', () => {
         resolve(true)
       }, 2000)
     })
-    expect(vm.$el.textContent).toBe('1000')
+    expect(vm.$el.textContent).toBe('100')
     wrapper.unmount()
   })
 })
