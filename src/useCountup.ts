@@ -1,72 +1,93 @@
 import type { CountUpOptions } from 'countup.js'
-import type { MaybeRef, Ref } from 'vue-demi'
+import type { MaybeRef, Ref } from 'vue'
 import { CountUp } from 'countup.js'
-import { onScopeDispose, toRef, watch } from 'vue-demi'
+import { onMounted, onScopeDispose, toRef, watch, nextTick } from 'vue'
 
 export interface UseCountupReturn {
-  start: () => void
+  start: () => Promise<void>
   reset: () => void
-  update: (newEndVal: number) => void
+  update: (newEndVal: number) => Promise<void>
   pauseResume: () => void
-  printValue: (n: number) => void
+  printValue: (value: number) => void
 }
 
-export function useCountup(target: Ref<HTMLElement | undefined>, endVal: MaybeRef<number>, options: MaybeRef<CountUpOptions> = {}): UseCountupReturn {
-  let countUp: CountUp | undefined
-
+export function useCountup(
+  target: Ref<HTMLElement | undefined>,
+  endVal: MaybeRef<number>,
+  options: MaybeRef<CountUpOptions> = {}
+): UseCountupReturn {
+  let countUpInstance: CountUp | undefined
   const endValRef = toRef(endVal)
   const optionsRef = toRef(options)
 
-  watch(target, () => {
-    createCountUp()
-  })
-
-  watch(() => optionsRef.value, () => {
-    createCountUp()
-  }, {
-    deep: true,
-  })
-
-  function createCountUp() {
-    pauseResume()
-    countUp = undefined
-    if (target.value) {
-      countUp = new CountUp(target.value!, endValRef.value, optionsRef.value)
-      countUp.start()
-    }
-    else {
-      throw new Error('target is required')
+  function createInstance(): CountUp | undefined {
+    if (!target.value) return undefined
+    
+    try {
+      return new CountUp(target.value, endValRef.value, {
+        enableScrollSpy: false,
+        scrollSpyOnce: false,
+        ...optionsRef.value
+      })
+    } catch (error) {
+      console.error('CountUp instance creation failed:', error)
+      return undefined
     }
   }
 
-  watch(() => endValRef.value, (newEndVal) => {
-    countUp?.update(newEndVal)
+  async function ensureInstance(): Promise<CountUp | undefined> {
+    if (countUpInstance) return countUpInstance
+    await nextTick()
+    countUpInstance = createInstance()
+    return countUpInstance
+  }
+
+  async function recreateAndStart() {
+    countUpInstance = undefined // 清除旧实例
+    const instance = await ensureInstance()
+    if (instance) instance.start()
+  }
+
+  // 监听目标元素变化和配置变化，这两种情况都需要重新创建实例
+  watch([target, optionsRef], recreateAndStart, { deep: true })
+
+  // 监听结束值变化，只需要更新值
+  watch(endValRef, async (newEndVal) => {
+    const instance = await ensureInstance()
+    if (instance) instance.update(newEndVal)
   })
 
-  function printValue(n: number) {
-    countUp?.printValue(n)
-  }
-  function start() {
-    countUp?.start()
-  }
-  function reset() {
-    countUp?.reset()
-  }
-  function update(newEndVal: number) {
-    countUp?.update(newEndVal)
-  }
-  function pauseResume() {
-    countUp?.pauseResume()
-  }
+  // 组件挂载时创建实例
+  onMounted(recreateAndStart)
 
+  // 组件销毁时清理实例
   onScopeDispose(() => {
-    countUp = undefined
+    countUpInstance = undefined
   })
+
   return {
-    start,
-    reset,
-    update,
-    pauseResume,
-    printValue,
+    async start() {
+      const instance = await ensureInstance()
+      if (instance) instance.start()
+    },
+    reset() {
+      if (countUpInstance) {
+        countUpInstance.reset()
+      }
+    },
+    async update(newEndVal: number) {
+      const instance = await ensureInstance()
+      if (instance) instance.update(newEndVal)
+    },
+    pauseResume() {
+      if (countUpInstance) {
+        countUpInstance.pauseResume()
+      }
+    },
+    printValue(value: number) {
+      if (countUpInstance) {
+        countUpInstance.printValue(value)
+      }
+    }
   }
 }

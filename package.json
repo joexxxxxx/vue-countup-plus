@@ -1,35 +1,30 @@
 {
   "name": "vue-countup-plus",
   "type": "module",
-  "version": "1.0.4",
+  "version": "0.1.0",
   "private": false,
   "license": "MIT",
   "description": "A Vue 3 component that wraps CountUp.js to create animated number transitions",
+  "author": "",
   "keywords": [
-    "countup",
-    "vue-countup",
     "vue",
-    "number",
+    "vue3",
+    "countup",
+    "animation",
     "typescript"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/joexxxxxx/vue-countup-plus.git"
-  },
-  "homepage": "https://github.com/joexxxxxx/vue-countup-plus#readme",
-  "bugs": {
-    "url": "https://github.com/joexxxxxx/vue-countup-plus/issues"
-  },
+  "types": "./dist/index.d.ts",
+  "main": "./dist/vue-countup-plus.umd.cjs",
+  "module": "./dist/vue-countup-plus.js",
+  "unpkg": "./dist/vue-countup-plus.iife.js",
+  "jsdelivr": "./dist/vue-countup-plus.iife.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "import": "./dist/vue-countup-plus.js",
+      "require": "./dist/vue-countup-plus.umd.cjs"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -37,24 +32,35 @@
     "dev": "vite",
     "test": "vitest run",
     "prepublishOnly": "pnpm test && pnpm build",
-    "build": "vue-tsc -b && vite build"
+    "build": "vite build && vue-tsc --declaration --emitDeclarationOnly",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "countup.js": "^2.8.0",
-    "vue": "^3.5.12",
-    "vue-demi": "^0.14.10"
+    "vue": "^3.5.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.9.2",
-    "@types/node": "^22.9.3",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "@vue/test-utils": "^2.4.6",
-    "eslint": "^9.15.0",
-    "typescript": "~5.6.2",
-    "vite": "^5.4.10",
-    "vite-plugin-dts": "^4.3.0",
-    "vitest": "^2.1.5",
-    "vue-tsc": "^2.1.8"
+    "@antfu/eslint-config": "^2.6.1",
+    "@types/node": "^20.11.5",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "@vue/test-utils": "^2.4.3",
+    "@vue/tsconfig": "^0.5.1",
+    "eslint": "^8.56.0",
+    "jsdom": "^23.2.0",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vitepress": "^1.0.0-rc.40",
+    "vitest": "^1.2.1",
+    "vue-tsc": "^1.8.27"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
