@@ -1,5 +1,7 @@
 # vue-countup-plus
 
+English | [简体中文](./README.zh-CN.md)
+
 A versatile number animation counter component that supports both Vue 2 and Vue 3. Built on top of countup.js and powered by vue-demi for seamless Vue version compatibility.
 
 [![NPM Version](https://img.shields.io/npm/v/vue-countup-plus)](https://www.npmjs.com/package/vue-countup-plus)
@@ -9,7 +11,7 @@ A versatile number animation counter component that supports both Vue 2 and Vue 
 
 - 🔄 Compatible with both Vue 2 and Vue 3
 - 💪 Full TypeScript support
-- 🚀 Smooth number animations powered by countup.js
+- 🚀 Smooth number animations powered by [countup.js](https://github.com/inorganik/countUp.js)
 - 🎮 Rich control methods (start, pause, reset, etc.)
 - ⚙️ Customizable animation options
 - 🔥 Reactive updates support
@@ -17,15 +19,16 @@ A versatile number animation counter component that supports both Vue 2 and Vue 
 
 ## 🚀 Installation
 
+### Core Package
 ```bash
 # npm
-npm install vue-countup-plus
+npm install vue-countup-plus countup.js
 
 # pnpm
-pnpm add vue-countup-plus
+pnpm add vue-countup-plus countup.js
 
 # yarn
-yarn add vue-countup-plus
+yarn add vue-countup-plus countup.js
 ```
 
 ### Additional Dependencies

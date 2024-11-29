@@ -21,13 +21,16 @@ vue-countup-plus 是一个同时支持 Vue 2 和 Vue 3 的数字动画计数组�
 
 ## 安装
 
-### 1. 安装组件
+### 1. 安装核心包
 ```bash
-npm install vue-countup-plus
-# 或
-pnpm add vue-countup-plus
-# 或
-yarn add vue-countup-plus
+# npm
+npm install vue-countup-plus countup.js
+
+# pnpm
+pnpm add vue-countup-plus countup.js
+
+# yarn
+yarn add vue-countup-plus countup.js
 ```
 
 ### 2. 安装对应版本依赖
