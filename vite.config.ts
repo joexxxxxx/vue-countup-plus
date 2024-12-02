@@ -7,11 +7,14 @@ export default defineConfig({
   plugins: [
     vue(),
     dts({
-      include: ['src/**/*.ts', 'src/**/*.vue'],
-      exclude: ['src/**/__tests__/**'],
+      tsconfigPath: './tsconfig.app.json',
+      outDir: './dist',
+      include: ['./src/*.ts', './src/*.vue'],
+      exclude: ['./src/**/__tests__/**'],
     }),
   ],
   build: {
+    outDir: './dist',
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'VueCountupPlus',
