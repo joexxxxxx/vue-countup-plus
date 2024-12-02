@@ -1,14 +1,14 @@
 import type { CountUpOptions } from 'countup.js'
 import type { MaybeRef, Ref } from 'vue'
 import { CountUp } from 'countup.js'
-import { onMounted, onScopeDispose, toRef, watch, nextTick } from 'vue'
+import { onMounted, onScopeDispose, toRef, watch, nextTick, shallowRef } from 'vue'
 
 export interface UseCountupReturn {
   start: () => Promise<void>
   reset: () => void
   update: (newEndVal: number) => Promise<void>
   pauseResume: () => void
-  printValue: (value: number) => void
+  countUpInstance: Ref<CountUp | undefined>
 }
 
 export function useCountup(
@@ -16,9 +16,10 @@ export function useCountup(
   endVal: MaybeRef<number>,
   options: MaybeRef<CountUpOptions> = {}
 ): UseCountupReturn {
-  let countUpInstance: CountUp | undefined
   const endValRef = toRef(endVal)
   const optionsRef = toRef(options)
+
+  const countUpInstance = shallowRef<CountUp | undefined>(undefined)
 
   function createInstance(): CountUp | undefined {
     if (!target.value) return undefined
@@ -27,7 +28,7 @@ export function useCountup(
       return new CountUp(target.value, endValRef.value, {
         enableScrollSpy: false,
         scrollSpyOnce: false,
-        ...optionsRef.value
+        ...optionsRef.value,
       })
     } catch (error) {
       console.error('CountUp instance creation failed:', error)
@@ -36,14 +37,14 @@ export function useCountup(
   }
 
   async function ensureInstance(): Promise<CountUp | undefined> {
-    if (countUpInstance) return countUpInstance
+    if (countUpInstance.value) return countUpInstance.value
     await nextTick()
-    countUpInstance = createInstance()
-    return countUpInstance
+    countUpInstance.value = createInstance()
+    return countUpInstance.value
   }
 
   async function recreateAndStart() {
-    countUpInstance = undefined // 清除旧实例
+    countUpInstance.value = undefined // 清除旧实例
     const instance = await ensureInstance()
     if (instance) instance.start()
   }
@@ -62,7 +63,7 @@ export function useCountup(
 
   // 组件销毁时清理实例
   onScopeDispose(() => {
-    countUpInstance = undefined
+    countUpInstance.value = undefined
   })
 
   return {
@@ -71,8 +72,8 @@ export function useCountup(
       if (instance) instance.start()
     },
     reset() {
-      if (countUpInstance) {
-        countUpInstance.reset()
+      if (countUpInstance.value) {
+        countUpInstance.value.reset()
       }
     },
     async update(newEndVal: number) {
@@ -80,14 +81,10 @@ export function useCountup(
       if (instance) instance.update(newEndVal)
     },
     pauseResume() {
-      if (countUpInstance) {
-        countUpInstance.pauseResume()
+      if (countUpInstance.value) {
+        countUpInstance.value.pauseResume()
       }
     },
-    printValue(value: number) {
-      if (countUpInstance) {
-        countUpInstance.printValue(value)
-      }
-    }
+    countUpInstance
   }
 }

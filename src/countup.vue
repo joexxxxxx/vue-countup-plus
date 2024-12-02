@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<{
 
 const target = ref<HTMLElement>()
 
-const { start, reset, update, pauseResume, printValue } = useCountup(target, props.endVal, props.options)
+const { start, reset, update, pauseResume, countUpInstance } = useCountup(target, props.endVal, props.options)
 
 watch(() => props.endVal, async (newEndVal) => {
   await update(newEndVal)
@@ -25,8 +25,9 @@ watch(() => props.endVal, async (newEndVal) => {
 defineExpose({
   start,
   reset,
+  update,
   pauseResume,
-  printValue,
+  countUpInstance
 })
 </script>
 
