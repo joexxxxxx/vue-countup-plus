@@ -41,7 +41,8 @@
   },
   "dependencies": {
     "countup.js": "^2.8.0",
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "vue-demi": "^0.14.10"
   },
   "peerDependencies": {
     "vue": "^3.5.0"

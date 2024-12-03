@@ -1,7 +1,7 @@
 import type { CountUpOptions } from 'countup.js'
 import type { MaybeRef, Ref } from 'vue'
 import { CountUp } from 'countup.js'
-import { onMounted, onScopeDispose, toRef, watch, nextTick, shallowRef } from 'vue'
+import { onMounted, onScopeDispose, toRef, watch, nextTick, shallowRef } from 'vue-demi'
 
 export interface UseCountupReturn {
   start: () => Promise<void>
@@ -12,13 +12,13 @@ export interface UseCountupReturn {
 }
 
 export function useCountup(
-  target: Ref<HTMLElement | undefined>,
+  dom:  MaybeRef<HTMLElement | null | undefined>,
   endVal: MaybeRef<number>,
   options: MaybeRef<CountUpOptions> = {}
 ): UseCountupReturn {
   const endValRef = toRef(endVal)
   const optionsRef = toRef(options)
-
+  const target = toRef(dom)
   const countUpInstance = shallowRef<CountUp | undefined>(undefined)
 
   function createInstance(): CountUp | undefined {

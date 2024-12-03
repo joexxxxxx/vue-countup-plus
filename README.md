@@ -7,11 +7,11 @@ A Vue 3 component that wraps CountUp.js to create animated number transitions. S
 
 ## ✨ Features
 
-- 🎯 Easy to use Vue 3 component and composable
+- 🎯 Easy to use Vue 3 component, composable, and directive
 - 💪 Written in TypeScript with full type support
 - 🎨 Highly customizable animation options
 - 📦 Lightweight with zero dependencies
-- 🔧 Support for both component and composition API
+- 🔧 Support for component, composition API, and directive
 - 🌐 UMD, ESM, and IIFE bundle formats
 
 ## 📦 Installation
@@ -61,12 +61,33 @@ useCountup(countupRef, {
 </script>
 ```
 
-## ⚙️ Props
+### Directive Usage
+
+```vue
+<template>
+  <span v-countup="{ value: 2024, options: { duration: 2.5 } }">0</span>
+</template>
+
+<script setup>
+import { vCountup } from 'vue-countup-plus'
+</script>
+```
+
+## ⚙️ Props & Options
+
+### Component Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | endVal | number | 0 | The value to count to |
-| options | CountUpOptions | `{ enableScrollSpy: false, scrollSpyOnce: false }` | CountUp.js configuration options |
+| options | CountUpOptions | `{}` | CountUp.js configuration options |
+
+### Directive Value
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| value | number | 0 | The value to count to |
+| options | CountUpOptions | `{}` | CountUp.js configuration options |
 
 ### CountUpOptions Interface
 
@@ -91,6 +112,8 @@ interface CountUpOptions {
 
 ## 🎨 Advanced Configuration
 
+### Component Example
+
 ```vue
 <template>
   <CountUp
@@ -104,15 +127,38 @@ interface CountUpOptions {
       prefix: '$',
       suffix: ' USD',
       separator: ',',
-      decimal: '.',
-      enableScrollSpy: true,
-      scrollSpyOnce: true
+      decimal: '.'
     }"
   />
 </template>
 
 <script setup>
 import { CountUp } from 'vue-countup-plus'
+</script>
+```
+
+### Directive Example
+
+```vue
+<template>
+  <span v-countup="{
+    value: 1000,
+    options: {
+      startVal: 0,
+      decimalPlaces: 2,
+      duration: 2.5,
+      useGrouping: true,
+      useEasing: true,
+      prefix: '$',
+      suffix: ' USD',
+      separator: ',',
+      decimal: '.'
+    }
+  }">0</span>
+</template>
+
+<script setup>
+import { vCountup } from 'vue-countup-plus'
 </script>
 ```
 
