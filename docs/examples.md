@@ -17,12 +17,11 @@ yarn add vue-countup-plus
 
 # pnpm
 pnpm add vue-countup-plus
-
+```
 
 ## Component Demo
 
 The simplest way to use vue-countup-plus is with the `CountUp` component:
-```
 
 <BasicDemo />
 
@@ -77,29 +76,48 @@ onMounted(() => {
 
 ## Directive Demo
 
-For a simpler way to add counting animations, you can use the `v-countup` directive:
+For a simpler way to add counting animations, you can use the `v-countup` directive. The directive supports two usage patterns:
 
-<DirectiveDemo />
+### Simple Usage
+
+Just pass a number directly to the directive:
 
 ```vue
 <script setup>
 import { ref } from 'vue'
 import { vCountup } from 'vue-countup-plus'
 
-const endVal = ref(2024)
-const options = ref({
-  duration: 2,
-  decimalPlaces: 0,
-})
-
-const updateValue = () => {
-  endVal.value = Math.floor(Math.random() * 10000)
-}
+const value = ref(2024)
 </script>
 
 <template>
-  <span v-countup="{ value: endVal, options }">0</span>
-  <button @click="updateValue">Update Number</button>
+  <span v-countup="value">0</span>
 </template>
 ```
 
+### Advanced Usage with Options
+
+Pass an object with all CountUp.js options:
+
+```vue
+<script setup>
+import { ref, computed } from 'vue'
+import { vCountup } from 'vue-countup-plus'
+
+const endVal = ref(2024)
+const countupBinding = computed(() => ({
+  endVal: endVal.value,
+  duration: 2,
+  decimalPlaces: 0,
+  useGrouping: true,
+  prefix: '$',
+  suffix: ' USD'
+}))
+</script>
+
+<template>
+  <span v-countup="countupBinding">0</span>
+</template>
+```
+
+<DirectiveDemo />

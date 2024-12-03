@@ -1,26 +1,100 @@
 <!-- docs/components/DirectiveDemo.vue -->
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { vCountup } from '../../src/directive'
 
+const simpleValue = ref(2024)
 const endVal = ref(2024)
-const options = ref({
-  duration: 2,
-  decimalPlaces: 0,
-})
+const startVal = ref(0)
+const duration = ref(2)
+const decimalPlaces = ref(0)
+const useGrouping = ref(true)
+const useEasing = ref(true)
+const smartEasingThreshold = ref(999)
+const smartEasingAmount = ref(333)
+const separator = ref(',')
+const decimal = ref('.')
+const prefix = ref('')
+const suffix = ref('')
+
+const countupBinding = computed(() => ({
+  endVal: endVal.value,
+  startVal: startVal.value,
+  duration: duration.value,
+  decimalPlaces: decimalPlaces.value,
+  useGrouping: useGrouping.value,
+  useEasing: useEasing.value,
+  smartEasingThreshold: smartEasingThreshold.value,
+  smartEasingAmount: smartEasingAmount.value,
+  separator: separator.value,
+  decimal: decimal.value,
+  prefix: prefix.value,
+  suffix: suffix.value,
+}))
 
 const updateValue = () => {
-  endVal.value = Math.floor(Math.random() * 10000)
+  const newValue = Math.floor(Math.random() * 10000)
+  simpleValue.value = newValue
+  endVal.value = newValue
 }
 </script>
 
 <template>
   <div class="demo-container">
+    <h3>Simple Usage</h3>
     <div class="number-display">
-      <span v-countup="{ value: endVal, options }">0</span>
+      <span v-countup="simpleValue">0</span>
     </div>
+
+    <h3>Advanced Usage with Options</h3>
+    <div class="number-display">
+      <span v-countup="countupBinding">0</span>
+    </div>
+
     <div class="controls">
-      <button class="update-btn" @click="updateValue">Update Number</button>
+      <button class="update-btn" @click="updateValue">Update Numbers</button>
+      
+      <div class="options-grid">
+        <div class="option-item">
+          <label>Start Value:</label>
+          <input type="number" v-model.number="startVal" />
+        </div>
+        
+        <div class="option-item">
+          <label>Duration (s):</label>
+          <input type="number" v-model.number="duration" min="0" step="0.5" />
+        </div>
+        
+        <div class="option-item">
+          <label>Decimal Places:</label>
+          <input type="number" v-model.number="decimalPlaces" min="0" />
+        </div>
+        
+        <div class="option-item">
+          <label>Prefix:</label>
+          <input type="text" v-model="prefix" />
+        </div>
+        
+        <div class="option-item">
+          <label>Suffix:</label>
+          <input type="text" v-model="suffix" />
+        </div>
+        
+        <div class="option-item">
+          <label>Separator:</label>
+          <input type="text" v-model="separator" />
+        </div>
+        
+        <div class="option-item">
+          <label>Decimal:</label>
+          <input type="text" v-model="decimal" />
+        </div>
+        
+        <div class="option-item">
+          <label>Use Grouping:</label>
+          <input type="checkbox" v-model="useGrouping" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +117,8 @@ const updateValue = () => {
 
 .controls {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -59,5 +134,38 @@ const updateValue = () => {
 
 .update-btn:hover {
   opacity: 0.8;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.option-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.option-item label {
+  font-size: 0.9rem;
+  color: var(--vp-c-text-2);
+}
+
+.option-item input[type="text"],
+.option-item input[type="number"] {
+  padding: 0.5rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 4px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+}
+
+.option-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
 }
 </style>
