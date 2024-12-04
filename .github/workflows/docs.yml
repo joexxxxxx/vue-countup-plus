@@ -53,4 +53,4 @@ jobs:
           target_branch: gh-pages
           build_dir: docs/.vitepress/dist/
         env:
-          GH_PAT: ${{ secrets.ACCESS_TOKEN }}
+          GH_PAT: ${{ secrets.ACCESS_COUNTUP }}
