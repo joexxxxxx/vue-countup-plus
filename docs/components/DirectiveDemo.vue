@@ -1,6 +1,6 @@
 <!-- docs/components/DirectiveDemo.vue -->
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { vCountup } from '../../src/directive'
 
 const simpleValue = ref(2024)
@@ -32,7 +32,7 @@ const countupBinding = computed(() => ({
   suffix: suffix.value,
 }))
 
-const updateValue = () => {
+function updateValue() {
   const newValue = Math.floor(Math.random() * 10000)
   simpleValue.value = newValue
   endVal.value = newValue
@@ -52,47 +52,49 @@ const updateValue = () => {
     </div>
 
     <div class="controls">
-      <button class="update-btn" @click="updateValue">Update Numbers</button>
-      
+      <button class="update-btn" @click="updateValue">
+        Update Numbers
+      </button>
+
       <div class="options-grid">
         <div class="option-item">
           <label>Start Value:</label>
-          <input type="number" v-model.number="startVal" />
+          <input v-model.number="startVal" type="number">
         </div>
-        
+
         <div class="option-item">
           <label>Duration (s):</label>
-          <input type="number" v-model.number="duration" min="0" step="0.5" />
+          <input v-model.number="duration" type="number" min="0" step="0.5">
         </div>
-        
+
         <div class="option-item">
           <label>Decimal Places:</label>
-          <input type="number" v-model.number="decimalPlaces" min="0" />
+          <input v-model.number="decimalPlaces" type="number" min="0">
         </div>
-        
+
         <div class="option-item">
           <label>Prefix:</label>
-          <input type="text" v-model="prefix" />
+          <input v-model="prefix" type="text">
         </div>
-        
+
         <div class="option-item">
           <label>Suffix:</label>
-          <input type="text" v-model="suffix" />
+          <input v-model="suffix" type="text">
         </div>
-        
+
         <div class="option-item">
           <label>Separator:</label>
-          <input type="text" v-model="separator" />
+          <input v-model="separator" type="text">
         </div>
-        
+
         <div class="option-item">
           <label>Decimal:</label>
-          <input type="text" v-model="decimal" />
+          <input v-model="decimal" type="text">
         </div>
-        
+
         <div class="option-item">
           <label>Use Grouping:</label>
-          <input type="checkbox" v-model="useGrouping" />
+          <input v-model="useGrouping" type="checkbox">
         </div>
       </div>
     </div>

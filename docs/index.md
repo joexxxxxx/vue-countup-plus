@@ -24,7 +24,6 @@ features:
 
 A Vue 3 component that wraps CountUp.js to create animated number transitions.
 
-
 ## License
 
 MIT

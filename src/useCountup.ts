@@ -1,7 +1,7 @@
 import type { CountUpOptions } from 'countup.js'
-import type { MaybeRef, Ref } from 'vue'
+import type { MaybeRef, Ref } from 'vue-demi'
 import { CountUp } from 'countup.js'
-import { onMounted, onScopeDispose, toRef, watch, nextTick, shallowRef } from 'vue-demi'
+import { computed, nextTick, onMounted, onScopeDispose, shallowRef, toRef, unref, watch } from 'vue-demi'
 
 export interface UseCountupReturn {
   start: () => Promise<void>
@@ -12,32 +12,39 @@ export interface UseCountupReturn {
 }
 
 export function useCountup(
-  dom:  MaybeRef<HTMLElement | null | undefined>,
+  dom: MaybeRef<HTMLElement | null | undefined>,
   endVal: MaybeRef<number>,
-  options: MaybeRef<CountUpOptions> = {}
+  options: MaybeRef<CountUpOptions> = {},
 ): UseCountupReturn {
   const endValRef = toRef(endVal)
-  const optionsRef = toRef(options)
-  const target = toRef(dom)
+  const optionsRef = computed(() => {
+    return unref(options)
+  })
+
+  const target = computed(() => {
+    return unref(dom)
+  })
+
   const countUpInstance = shallowRef<CountUp | undefined>(undefined)
 
   function createInstance(): CountUp | undefined {
-    if (!target.value) return undefined
-    
+    if (!target.value)
+      return undefined
+
     try {
       return new CountUp(target.value, endValRef.value, {
-        enableScrollSpy: false,
-        scrollSpyOnce: false,
         ...optionsRef.value,
       })
-    } catch (error) {
+    }
+    catch (error) {
       console.error('CountUp instance creation failed:', error)
       return undefined
     }
   }
 
   async function ensureInstance(): Promise<CountUp | undefined> {
-    if (countUpInstance.value) return countUpInstance.value
+    if (countUpInstance.value)
+      return countUpInstance.value
     await nextTick()
     countUpInstance.value = createInstance()
     return countUpInstance.value
@@ -46,7 +53,8 @@ export function useCountup(
   async function recreateAndStart() {
     countUpInstance.value = undefined // 清除旧实例
     const instance = await ensureInstance()
-    if (instance) instance.start()
+    if (instance)
+      instance.start()
   }
 
   // 监听目标元素变化和配置变化，这两种情况都需要重新创建实例
@@ -55,7 +63,8 @@ export function useCountup(
   // 监听结束值变化，只需要更新值
   watch(endValRef, async (newEndVal) => {
     const instance = await ensureInstance()
-    if (instance) instance.update(newEndVal)
+    if (instance)
+      instance.update(newEndVal)
   })
 
   // 组件挂载时创建实例
@@ -69,7 +78,8 @@ export function useCountup(
   return {
     async start() {
       const instance = await ensureInstance()
-      if (instance) instance.start()
+      if (instance)
+        instance.start()
     },
     reset() {
       if (countUpInstance.value) {
@@ -78,13 +88,14 @@ export function useCountup(
     },
     async update(newEndVal: number) {
       const instance = await ensureInstance()
-      if (instance) instance.update(newEndVal)
+      if (instance)
+        instance.update(newEndVal)
     },
     pauseResume() {
       if (countUpInstance.value) {
         countUpInstance.value.pauseResume()
       }
     },
-    countUpInstance
+    countUpInstance,
   }
 }

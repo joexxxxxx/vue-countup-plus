@@ -35,10 +35,6 @@ pnpm add vue-countup-plus
 The simplest way to use vue-countup-plus:
 
 ```vue
-<template>
-  <CountUp :end-val="2024" :options="options" />
-</template>
-
 <script setup>
 import { CountUp } from 'vue-countup-plus'
 
@@ -47,6 +43,10 @@ const options = {
   decimalPlaces: 0,
 }
 </script>
+
+<template>
+  <CountUp :end-val="2024" :options="options" />
+</template>
 ```
 
 ### Directive Usage
@@ -55,23 +55,19 @@ Two ways to use the directive:
 
 #### Simple Usage
 ```vue
-<template>
-  <span v-countup="2024">0</span>
-</template>
-
 <script setup>
 import { vCountup } from 'vue-countup-plus'
 </script>
+
+<template>
+  <span v-countup="2024">0</span>
+</template>
 ```
 
 #### Advanced Usage with Options
 ```vue
-<template>
-  <span v-countup="countupBinding">0</span>
-</template>
-
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { vCountup } from 'vue-countup-plus'
 
 const endVal = ref(2024)
@@ -84,6 +80,10 @@ const countupBinding = computed(() => ({
   suffix: ' USD'
 }))
 </script>
+
+<template>
+  <span v-countup="countupBinding">0</span>
+</template>
 ```
 
 ### Composable Usage
@@ -91,16 +91,8 @@ const countupBinding = computed(() => ({
 For more control over the animation:
 
 ```vue
-<template>
-  <span ref="el">0</span>
-  <button @click="start">Start</button>
-  <button @click="update(Math.random() * 1000)">Update</button>
-  <button @click="reset">Reset</button>
-  <button @click="pauseResume">Pause/Resume</button>
-</template>
-
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useCountup } from 'vue-countup-plus'
 
 const el = ref()
@@ -115,6 +107,22 @@ onMounted(() => {
   start()
 })
 </script>
+
+<template>
+  <span ref="el">0</span>
+  <button @click="start">
+    Start
+  </button>
+  <button @click="update(Math.random() * 1000)">
+    Update
+  </button>
+  <button @click="reset">
+    Reset
+  </button>
+  <button @click="pauseResume">
+    Pause/Resume
+  </button>
+</template>
 ```
 
 ## ⚙️ Configuration Options

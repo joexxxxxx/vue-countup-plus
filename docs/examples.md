@@ -49,7 +49,7 @@ If you prefer more control over the DOM element and animation, you can use the `
 
 ```vue
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useCountup } from 'vue-countup-plus'
 
 const el = ref<HTMLElement>()
@@ -67,10 +67,18 @@ onMounted(() => {
 
 <template>
   <span ref="el">0</span>
-  <button @click="start">Start</button>
-  <button @click="update(Math.random() * 1000)">Update</button>
-  <button @click="reset">Reset</button>
-  <button @click="pauseResume">Pause/Resume</button>
+  <button @click="start">
+    Start
+  </button>
+  <button @click="update(Math.random() * 1000)">
+    Update
+  </button>
+  <button @click="reset">
+    Reset
+  </button>
+  <button @click="pauseResume">
+    Pause/Resume
+  </button>
 </template>
 ```
 
@@ -101,7 +109,7 @@ Pass an object with all CountUp.js options:
 
 ```vue
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { vCountup } from 'vue-countup-plus'
 
 const endVal = ref(2024)

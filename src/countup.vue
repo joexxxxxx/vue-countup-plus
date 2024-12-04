@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CountUpOptions } from 'countup.js'
-import { watch, useTemplateRef } from 'vue-demi'
+import { ref, watch } from 'vue-demi'
 import { useCountup } from './useCountup'
 
 const props = withDefaults(defineProps<{
@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
   }),
 })
 
-const target = useTemplateRef<HTMLElement>('target')
+const target = ref<HTMLElement>()
 
 const { start, reset, update, pauseResume, countUpInstance } = useCountup(target, props.endVal, props.options)
 
@@ -26,7 +26,7 @@ defineExpose({
   reset,
   update,
   pauseResume,
-  countUpInstance
+  countUpInstance,
 })
 </script>
 

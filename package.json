@@ -1,22 +1,21 @@
 {
   "name": "vue-countup-plus",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.2.5",
   "private": false,
-  "license": "MIT",
   "description": "A Vue 3 component that wraps CountUp.js to create animated number transitions",
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joexxxxxx/vue-countup-plus"
+  },
+  "author": "joexxxxxx",
+  "license": "MIT",
   "keywords": [
     "vue",
     "countup",
     "animation",
     "typescript"
   ],
-  "types": "./dist/index.d.ts",
-  "main": "./dist/vue-countup-plus.umd.cjs",
-  "module": "./dist/vue-countup-plus.js",
-  "unpkg": "./dist/vue-countup-plus.iife.js",
-  "jsdelivr": "./dist/vue-countup-plus.iife.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -24,6 +23,11 @@
       "require": "./dist/vue-countup-plus.umd.cjs"
     }
   },
+  "main": "./dist/vue-countup-plus.umd.cjs",
+  "module": "./dist/vue-countup-plus.js",
+  "unpkg": "./dist/vue-countup-plus.iife.js",
+  "jsdelivr": "./dist/vue-countup-plus.iife.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -31,7 +35,7 @@
     "dev": "vite",
     "test": "vitest run",
     "prepublishOnly": "pnpm build",
-    "build": "vue-tsc -b && vite build",
+    "build": "pnpm lint:fix && vue-tsc -b && vite build",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -39,13 +43,13 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write ."
   },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
   "dependencies": {
     "countup.js": "^2.8.0",
     "vue": "^3.5.0",
     "vue-demi": "^0.14.10"
-  },
-  "peerDependencies": {
-    "vue": "^3.5.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.1",

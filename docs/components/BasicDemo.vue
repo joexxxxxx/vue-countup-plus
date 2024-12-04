@@ -1,7 +1,7 @@
 <!-- docs/components/BasicDemo.vue -->
 <script setup lang="ts">
 import { ref } from 'vue'
-import CountUp from '../../src/countup.vue'
+import { CountUp } from '../../src'
 
 const endVal = ref(2024)
 const options = ref({
@@ -15,94 +15,72 @@ const options = ref({
   separator: ',',
   decimal: '.',
   prefix: '',
-  suffix: ''
+  suffix: '',
 })
 
-const updateValue = () => {
+function updateValue() {
   endVal.value = Math.floor(Math.random() * 10000)
 }
-
-const updateStartVal = (val: string) => {
-  options.value.startVal = Number(val)
-}
-
-const updateDuration = (val: string) => {
-  options.value.duration = Number(val)
-}
-
-const updateDecimalPlaces = (val: string) => {
-  options.value.decimalPlaces = Number(val)
-}
-
-const updatePrefix = (val: string) => {
-  options.value.prefix = val
-}
-
-const updateSuffix = (val: string) => {
-  options.value.suffix = val
-}
-
-const updateSeparator = (val: string) => {
-  options.value.separator = val
-}
-
-const updateDecimal = (val: string) => {
-  options.value.decimal = val
-}
+// const o = readonly({...options.value})
 </script>
 
 <template>
   <div class="demo-container">
+    <!-- <div class="number-display">
+      <CountUp :end-val="endVal" :options="o" />
+    </div> -->
     <div class="number-display">
       <CountUp :end-val="endVal" :options="options" />
     </div>
     <div class="controls">
-      <button class="update-btn" @click="updateValue">Update Number</button>
-      
+      <button class="update-btn" @click="updateValue">
+        Update Number
+      </button>
+
       <div class="options-grid">
         <div class="option-item">
           <label>Start Value:</label>
-          <input type="number" v-model.number="options.startVal" />
+          <input v-model.number="options.startVal" type="number">
         </div>
-        
+
         <div class="option-item">
           <label>Duration (s):</label>
-          <input type="number" v-model.number="options.duration" min="0" step="0.5" />
+          <input v-model.number="options.duration" type="number" min="0" step="0.5">
         </div>
-        
+
         <div class="option-item">
           <label>Decimal Places:</label>
-          <input type="number" v-model.number="options.decimalPlaces" min="0" />
+          <input v-model.number="options.decimalPlaces" type="number" min="0">
         </div>
-        
+
         <div class="option-item">
           <label>Prefix:</label>
-          <input type="text" v-model="options.prefix" />
+          <input v-model="options.prefix" type="text">
         </div>
-        
+
         <div class="option-item">
           <label>Suffix:</label>
-          <input type="text" v-model="options.suffix" />
+          <input v-model="options.suffix" type="text">
         </div>
-        
+
         <div class="option-item">
           <label>Separator:</label>
-          <input type="text" v-model="options.separator" />
+          <input v-model="options.separator" type="text">
         </div>
-        
+
         <div class="option-item">
           <label>Decimal:</label>
-          <input type="text" v-model="options.decimal" />
+          <input v-model="options.decimal" type="text">
         </div>
-        
+
         <div class="option-item">
           <label>Use Grouping:</label>
-          <input type="checkbox" v-model="options.useGrouping" />
+          <input v-model="options.useGrouping" type="checkbox">
         </div>
-        
+
         <div class="option-item">
           <label>Use Easing:</label>
-          <input type="checkbox" v-model="options.useEasing" />
+          <input v-model="options.useEasing" type="checkbox">
         </div>
       </div>
     </div>

@@ -1,17 +1,17 @@
 <!-- docs/components/HookDemo.vue -->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useCountup } from '../../src/useCountup'
 
 const el = ref<HTMLElement>()
 const endVal = ref(2024)
 
-const { start, update, reset, pauseResume } = useCountup(el, endVal, {
+const { start, reset, pauseResume } = useCountup(el, endVal, {
   duration: 2,
   decimalPlaces: 0,
 })
 
-const randomUpdate = () => {
+function randomUpdate() {
   endVal.value = Math.floor(Math.random() * 10000)
 }
 
@@ -26,10 +26,18 @@ onMounted(() => {
       <span ref="el" class="number">0</span>
     </div>
     <div class="controls">
-      <button class="control-btn" @click="start">Start</button>
-      <button class="control-btn" @click="randomUpdate">Update</button>
-      <button class="control-btn" @click="reset">Reset</button>
-      <button class="control-btn" @click="pauseResume">Pause/Resume</button>
+      <button class="control-btn" @click="start">
+        Start
+      </button>
+      <button class="control-btn" @click="randomUpdate">
+        Update
+      </button>
+      <button class="control-btn" @click="reset">
+        Reset
+      </button>
+      <button class="control-btn" @click="pauseResume">
+        Pause/Resume
+      </button>
     </div>
   </div>
 </template>
@@ -78,7 +86,7 @@ onMounted(() => {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .control-btn {
     width: 100%;
   }

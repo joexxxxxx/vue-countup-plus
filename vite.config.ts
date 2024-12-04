@@ -19,14 +19,15 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'VueCountupPlus',
       fileName: 'vue-countup-plus',
-      formats: ['es', 'umd', 'cjs', 'iife']
+      formats: ['es', 'umd', 'cjs', 'iife'],
     },
     rollupOptions: {
-      external: ['vue', 'countup.js'],
+      external: ['vue', 'countup.js', 'vue-demi'],
       output: {
         globals: {
-          vue: 'Vue',
+          'vue': 'Vue',
           'countup.js': 'CountUp',
+          'vue-demi': 'VueDemi',
         },
       },
     },
