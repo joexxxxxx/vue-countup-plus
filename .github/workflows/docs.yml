@@ -1,37 +1,56 @@
-name: Deploy Docs
+name: docs
 
 on:
   push:
     branches:
-      - docs  # Trigger on push to docs branch
+      - docs
     paths-ignore:
-      - 'docs/.vitepress/dist/**'  # Ignore changes in the dist directory
+      - '**/__tests__/**'
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  docs:
     runs-on: ubuntu-latest
+
+    env:
+      DOCS_GA_ID: G-CTB8FQ7VMW
+      NODE_VERSION: '18'
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
         with:
-          node-version: '18.x'
-          cache: 'npm'
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install Dependencies
-        run: npm ci
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Build Documentation
-        run: npm run docs:build
+      - name: Handle yarn cache
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.NODE_VERSION }}-yarn-
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Build documentation site
+        run: yarn docs:build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: crazy-max/ghaction-github-pages@v2.2.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/.vitepress/dist  # The folder to publish
-          force_orphan: true  # Keep only the latest commit in the gh-pages branch
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: 'docs: update documentation'
+          # repo: liubz/liubz.github.io
+          target_branch: gh-pages
+          build_dir: docs/.vitepress/dist/
+        env:
+          GH_PAT: ${{ secrets.ACCESS_TOKEN }}
