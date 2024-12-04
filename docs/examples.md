@@ -1,9 +1,16 @@
 # Vue CountUp Plus Examples
 
 <script setup>
-import BasicDemo from './components/BasicDemo.vue'
-import HookDemo from './components/HookDemo.vue'
-import DirectiveDemo from './components/DirectiveDemo.vue'
+import { defineAsyncComponent } from 'vue'
+const BasicDemo = defineAsyncComponent(() =>
+  import('./components/BasicDemo.vue')
+)
+const HookDemo = defineAsyncComponent(() =>
+  import('./components/HookDemo.vue')
+)
+const DirectiveDemo = defineAsyncComponent(() =>
+  import('./components/DirectiveDemo.vue')
+)
 </script>
 
 ## Installation
@@ -22,8 +29,9 @@ pnpm add vue-countup-plus
 ## Component Demo
 
 The simplest way to use vue-countup-plus is with the `CountUp` component:
-
-<BasicDemo />
+<ClientOnly>
+  <BasicDemo />
+</ClientOnly>
 
 ```vue
 <script setup>
@@ -45,7 +53,9 @@ const options = {
 
 If you prefer more control over the DOM element and animation, you can use the `useCountup` composable:
 
-<HookDemo />
+<ClientOnly>
+  <HookDemo />
+</ClientOnly>
 
 ```vue
 <script setup>
@@ -127,5 +137,6 @@ const countupBinding = computed(() => ({
   <span v-countup="countupBinding">0</span>
 </template>
 ```
-
-<DirectiveDemo />
+<ClientOnly>
+  <DirectiveDemo />
+</ClientOnly>
