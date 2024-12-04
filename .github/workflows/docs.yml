@@ -3,7 +3,7 @@ name: docs
 on:
   push:
     branches:
-      - docs
+      - main
     paths-ignore:
       - '**/__tests__/**'
   workflow_dispatch:
