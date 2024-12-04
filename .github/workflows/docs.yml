@@ -47,7 +47,7 @@ jobs:
         run: yarn docs:build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: crazy-max/ghaction-github-pages@v2.2.0
         with:
           # repo: liubz/liubz.github.io
           target_branch: gh-pages
