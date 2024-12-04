@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'vue-countup-plus',
   description: 'A Vue 3 component that wraps CountUp.js to create animated number transitions',
+  base: '/vue-countup-plus/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
