@@ -26,9 +26,9 @@ function createCountUpInstance(el: HTMLElement, value: DirectiveValue) {
 }
 
 const createInstance: DirectiveHook<DirectiveValue> = (el, binding) => {
-  if (binding.value !== 0 && !binding.value) {
+  if (binding.value !== 0 && !binding.value)
     throw new Error('endVal is required')
-  }
+
   createCountUpInstance(el, binding.value)
 }
 
@@ -63,9 +63,8 @@ const updateInstance: DirectiveHook<DirectiveValue> = (el, binding) => {
     return
   }
 
-  if (valueChanged) {
+  if (valueChanged)
     instance.update(value.endVal)
-  }
 }
 
 function removeInstance(el: HTMLElement) {

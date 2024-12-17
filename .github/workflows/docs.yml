@@ -66,9 +66,9 @@ jobs:
         # 安装依赖
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Build with VitePress
-        run: npm run docs:build 
+        run: npm run docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

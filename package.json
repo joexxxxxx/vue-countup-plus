@@ -4,13 +4,13 @@
   "version": "0.3.1",
   "private": false,
   "description": "A Vue 3 component that wraps CountUp.js to create animated number transitions",
+  "author": "joexxxxxx",
+  "license": "MIT",
   "homepage": "https://joexxxxxx.github.io/vue-countup-plus/",
   "repository": {
     "type": "git",
     "url": "https://github.com/joexxxxxx/vue-countup-plus"
   },
-  "author": "joexxxxxx",
-  "license": "MIT",
   "keywords": [
     "vue",
     "countup",

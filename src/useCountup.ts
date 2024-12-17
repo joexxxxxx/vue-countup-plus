@@ -82,9 +82,8 @@ export function useCountup(
         instance.start()
     },
     reset() {
-      if (countUpInstance.value) {
+      if (countUpInstance.value)
         countUpInstance.value.reset()
-      }
     },
     async update(newEndVal: number) {
       const instance = await ensureInstance()
@@ -92,9 +91,8 @@ export function useCountup(
         instance.update(newEndVal)
     },
     pauseResume() {
-      if (countUpInstance.value) {
+      if (countUpInstance.value)
         countUpInstance.value.pauseResume()
-      }
     },
     countUpInstance,
   }
